@@ -1,0 +1,17 @@
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+.main-navbar {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 20px;
+}
