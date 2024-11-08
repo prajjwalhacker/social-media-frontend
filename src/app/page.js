@@ -3,10 +3,14 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
 
   const [formData, setFormData] = useState({});
+
+  const router = useRouter();
 
 
   console.log("FormData");
@@ -14,18 +18,18 @@ export default function Home() {
 
 
   const onLoginSubmit = async () => {
-      const { email, username, password } = formData || {};
+      const { email, name, password } = formData || {};
 
       console.log(formData);
       
       try {
-        const res = await axios.post(`http://localhost:8080/api/signup`, {
-          email,
-          username,
-          password
-        });
+        const response = await axios.post('http://localhost:8080/api/signup',{
+          email, username: name, password
+        },{ withCredentials: true });
 
-        console.log(res, "response");
+        if (response?.data?._id) {
+           router.push('/login');
+        }
 
       }
       catch (err) {
@@ -36,17 +40,6 @@ export default function Home() {
 
   return (
     <div className="main-container">
-        <div className="main-navbar">
-          <div>
-             Signup
-          </div>
-          <div>
-            Login
-          </div>
-          <div>
-            Logout
-          </div>
-        </div>
         <div className="login-container">
            <div>
              Login in Social media Fuzzbook

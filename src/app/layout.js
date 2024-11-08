@@ -1,4 +1,5 @@
 import '../../styles/global.scss';
+import Navbar from './components/Navbar';
 
 export const metadata = {
   title: "Create Next App",
@@ -6,9 +7,29 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+
+  const navigations = [
+    {
+      name: "logout",
+      title: "Logout",
+      path: "/login"
+    },
+    {
+      name: "signup",
+      title: "signup",
+      path: "/signup"
+    },
+    {
+      name:"login",
+      title: "Login",
+      path: "/login"
+    }
+  ]
+
   return (
     <html lang="en">
       <body>
+        <Navbar navigations={navigations}/>
         {children}
       </body>
     </html>
