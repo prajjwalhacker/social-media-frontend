@@ -1,7 +1,9 @@
 "use client";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProfile } from '../feature/userProfileSlice';
 
 
  const Login = () => {
@@ -9,6 +11,12 @@ import { useRouter } from "next/navigation";
 
 
     const [formData, setFormData] = useState({});
+
+
+    const dispatch = useDispatch();
+    const userState = useSelector((state) => state.userProfile);
+    
+    console.log(userState, "profile");
 
     const router = useRouter();
 
@@ -23,6 +31,7 @@ import { useRouter } from "next/navigation";
               password
             }, { withCredentials: true });
             if (response?.data?.newUser?._id) {
+               dispatch(fetchProfile());
                router.push(`/dashboard/${response?.data?.newUser?._id}`);
             }
         }
@@ -30,6 +39,7 @@ import { useRouter } from "next/navigation";
             console.log(err, "error");
         }
     }
+
 
     return (
         <div className="login-container">

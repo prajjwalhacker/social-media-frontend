@@ -1,8 +1,10 @@
 "use client";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+
 
 const Dashboard = () => {
 
@@ -12,24 +14,29 @@ const Dashboard = () => {
     const [peoplesVisited, setPeopleVisited]= useState([]);
     const [totalVisits,setTotalVisits] = useState(0);
 
-    const router = useRouter();
+    const userProfile = useSelector((state) => state.userProfile);
+
+    console.log("userProfile");
+    console.log(userProfile)
 
 
-    console.log("router");
-    console.log(router);
+
+   const params = useParams();
+
 
     const fetchProfileData = async () => {
         const refreshToken = Cookies.get('refreshToken'); 
 
         try {
-           const response = await axios.get(`http://localhost:8080/api/get-profile-data?userId=${'672e03a9db75416be26e7711'}`,{
+           const response = await axios.get(`http://localhost:8080/api/get-another-profile-data?userId=${params.id}`,{
             withCredentials: true, 
             headers: {
               Cookie: `refreshToken=${refreshToken}`,
             },
           })
-          if (response?.data?.profileData) {
-             setProfileData(response?.data?.profileData);
+          console.log("profileResponse");
+          if (response?.data?.userData) {
+             setProfileData(response?.data?.userData);
           }
         }
         catch (err) {
@@ -52,6 +59,7 @@ const Dashboard = () => {
 
         }
     }
+
 
     useEffect(() => {
        fetchProfileData();
@@ -85,6 +93,8 @@ const Dashboard = () => {
            console.log(err);
         }
     }
+
+    console.log(profileData, "profileData");
 
     return (
         <div>
