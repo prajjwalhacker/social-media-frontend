@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
+import Modal from "@/app/components/Modal";
 
 
 const Dashboard = () => {
@@ -13,6 +14,7 @@ const Dashboard = () => {
     const [postList, setPostList] = useState([]);
     const [peoplesVisited, setPeopleVisited]= useState([]);
     const [totalVisits,setTotalVisits] = useState(0);
+    const [showModal, setShowModal] = useState(false);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -94,9 +96,8 @@ const Dashboard = () => {
         }
     }
 
-    console.log(profileData, "profileData");
-
     return (
+        <>
         <div>
            Welcome to Profile of {profileData?.username} 
            <div>
@@ -156,6 +157,8 @@ const Dashboard = () => {
               })}
            </div>
         </div>
+        <Modal/>
+        </>
     )
 }
 
