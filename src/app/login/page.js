@@ -10,6 +10,7 @@ import { fetchProfile } from '../feature/userProfileSlice';
 
 
 
+
     const [formData, setFormData] = useState({});
 
 
@@ -42,31 +43,33 @@ import { fetchProfile } from '../feature/userProfileSlice';
 
 
     return (
+        <div className="main-container">
         <div className="login-container">
-           <div>
+           <div className="login-title">
               Login in Fuzzbook
            </div>
-           <div>
+           <div className="form-row">
            <div>
              Email 
            </div>
            <div>
-              <input type="text" value={formData?.email || ''} name='email' onChange={(e) => {
+              <input className="custom-input" type="text" value={formData?.email || ''} name='email' onChange={(e) => {
                  setFormData((val) => ({ ...val, email: e.target.value }))
               }}/>
            </div>
-           <div>
+           <div className="form-row">
               Password
            </div>
-           <input  type='text' value={formData?.password || ''} name='password' onChange={(e) => {
+           <input className="custom-input" type='text' value={formData?.password || ''} name='password' onChange={(e) => {
               setFormData((val) => ({ ...val, password: e.target.value }));
            }}/>
            </div>
-           <button onClick={() => {
+           <button className="custom-button" onClick={() => {
               onsubmit();
            }}>
               Submit
            </button>
+        </div>
         </div>
     )
 }
