@@ -1,6 +1,4 @@
 "use client"
-import Image from "next/image";
-import styles from "./page.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 // import { useRouter } from "next/router";
@@ -41,34 +39,34 @@ export default function Home() {
   return (
     <div className="main-container">
         <div className="login-container">
-           <div>
-             Login in Social media Fuzzbook
+           <div className="login-title">
+             Signup in Social media Fuzzbook
            </div>
-           <div>
+           <div className="form-row">
              <div>
                 Email
              </div>
-             <input type='text' value={formData.email || ''} name='email' onChange={(e) => {
+             <input className="custom-input" type='text' value={formData.email || ''} name='email' onChange={(e) => {
                  setFormData((val) => ({ ...val,email: e.target.value }));
              }}/>
            </div>
-           <div>
+           <div className="form-row">
              <div>
                 Name
              </div>
-             <input type='text' value={formData.name || ''} name='username' onChange={(e) => {
+             <input className="custom-input" type='text' value={formData.name || ''} name='username' onChange={(e) => {
                 setFormData((val) => ({ ...val, name: e.target.value }))
              }}/>
            </div>
-           <div>
+           <div className="form-row">
              <div>
                 Password
              </div>
-             <input type='text' value={formData.password || ''} name='password' onChange={(e) => {
+             <input className='custom-input' type='text' value={formData.password || ''} name='password' onChange={(e) => {
                 setFormData((val) => ({ ...val, password: e.target.value }));
              }}/> 
            </div>
-           <button onClick={() => { onLoginSubmit() }}>
+           <button className="custom-button" onClick={() => { onLoginSubmit() }}>
               Submit 
            </button>
         </div>

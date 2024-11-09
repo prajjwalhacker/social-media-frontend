@@ -3,11 +3,40 @@
     flex-direction: column;
     height: 100%;
     width: 100%;
+    align-items: center;
+    justify-content: center;
     .login-container {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 8px;
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .login-title {
+            font-size: 24px;
+            color: #000000;
+            font-weight: 400;
+        }
     }
+}
+
+.custom-input {
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #eee;
+}
+
+.custom-button {
+  padding: 10px;
+  background-color: #eee;
+  width: 100px;
+  border-radius: 6px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .main-navbar {
