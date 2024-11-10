@@ -38,7 +38,7 @@ const Dashboard = () => {
         const refreshToken = Cookies.get('refreshToken'); 
 
         try {
-           const response = await axios.get(`http://localhost:8080/api/get-another-profile-data?userId=${params.id}`,{
+           const response = await axios.get(`${process.env.BACKEND_URL}/api/get-another-profile-data?userId=${params.id}`,{
             withCredentials: true, 
             headers: {
               Cookie: `refreshToken=${refreshToken}`,
@@ -56,7 +56,7 @@ const Dashboard = () => {
     const fetchPostList = async () => {
         const refreshToken = Cookies.get('refreshToken'); 
         try {
-          const response = await axios.get(`http://localhost:8080/api/postList?userId=${'672e03a9db75416be26e7711'}`,{
+          const response = await axios.get(`${process.env.BACKEND_URL}/api/postList?userId=${'672e03a9db75416be26e7711'}`,{
             withCredentials: true, 
             headers: {
               Cookie: `refreshToken=${refreshToken}`,
@@ -83,7 +83,7 @@ const Dashboard = () => {
     const onPostSubmit= async () => {
         const refreshToken = Cookies.get('refreshToken'); 
         try {
-            const response = await axios.post('http://localhost:8080/api/post', {
+            const response = await axios.post(`${process.env.BACKEND_URL}/api/post`, {
                 post: postMessage, 
                 userId: '672e03a9db75416be26e7711'
             }, {
@@ -105,7 +105,7 @@ const Dashboard = () => {
         const refreshToken = Cookies.get('refreshToken');
          try {
             console.log("hellloo");
-            const response = await axios.get(`http://localhost:8080/api/userNameSearch?searchTerm=${textSearch}`, {
+            const response = await axios.get(`${process.env.BACKEND_URL}/api/userNameSearch?searchTerm=${textSearch}`, {
                 withCredentials: true, 
                 headers: {
                   Cookie: `refreshToken=${refreshToken}`,
@@ -178,6 +178,12 @@ const Dashboard = () => {
                 </div>
             </div>
             <Modal/>
+            <div className="posts-container">
+                Create your Post here
+                <div>
+
+                </div>
+            </div>
         </div>
     )
 

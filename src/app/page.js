@@ -54,7 +54,7 @@ export default function Home() {
       }
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:8080/api/signup',{
+        const response = await axios.post(`${process.env.BACKEND_URL}/api/signup`,{
           email, username: name, password
         },{ withCredentials: true });
 
