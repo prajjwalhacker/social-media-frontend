@@ -27,8 +27,6 @@ const Dashboard = () => {
 
     const userProfile = useSelector((state) => state.userProfile);
 
-    console.log("userProfile");
-    console.log(userProfile)
 
 
    const params = useParams();
@@ -177,7 +175,7 @@ const Dashboard = () => {
                     })}
                 </div>
             </div>
-            <Modal/>
+            <Modal profileData={userProfile}/>
             <div className="posts-container">
                 Create your Post here
                 <div>

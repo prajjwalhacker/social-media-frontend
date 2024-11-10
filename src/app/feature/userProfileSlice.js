@@ -7,6 +7,7 @@ export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
   async () => {
     const refreshToken = Cookies.get('refreshToken'); 
+    console.log(refreshToken,  "refreshToken");
     const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/get-profile-data`,{
         withCredentials: true, 
         headers: {
