@@ -81,7 +81,7 @@ import { toast } from 'react-toastify'
         <div className="main-container">
         <div className="login-container">
            <div className="login-title">
-              Login in Fuzzbook
+               Missed us? Log in and let’s get back to connecting
            </div>
            <div className="form-row">
            <div>
