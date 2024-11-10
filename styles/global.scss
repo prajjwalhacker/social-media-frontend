@@ -193,3 +193,14 @@
 
 
 }
+
+.footer-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* Choose your footer color */
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+}

@@ -54,7 +54,7 @@ export default function Home() {
       }
       setLoading(true);
       try {
-        const response = await axios.post(`${process.env.BACKEND_URL}/api/signup`,{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/signup`,{
           email, username: name, password
         },{ withCredentials: true });
 
@@ -111,7 +111,7 @@ export default function Home() {
     <div className="main-container">
         <div className="login-container">
            <div className="login-title">
-             Signup in Social media Fuzzbook
+           "Be Part of the Connectly Community – Sign Up Now!
            </div>
            <div className="form-row">
              <input className="custom-input" type='text' value={formData.email || ''} name='email' placeholder='Email..' onChange={(e) => {
