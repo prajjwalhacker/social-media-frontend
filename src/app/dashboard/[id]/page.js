@@ -1,11 +1,17 @@
 "use client";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Modal from "@/app/components/Modal";
 import photoI from '../../../../public/profile/photo.svg';
+import photo2I from '../../../../public/profile/photo2.svg';
+import photo3I from '../../../../public/profile/photo3.svg';
+import photo4I from '../../../../public/profile/photo4.svg';
+
+
+const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
 
 const Dashboard = () => {
@@ -17,6 +23,7 @@ const Dashboard = () => {
     const [totalVisits,setTotalVisits] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [textSearch, setTextSearch] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -24,9 +31,8 @@ const Dashboard = () => {
     console.log(userProfile)
 
 
-
    const params = useParams();
-
+   const router = useRouter();
 
     const fetchProfileData = async () => {
         const refreshToken = Cookies.get('refreshToken'); 
@@ -38,7 +44,6 @@ const Dashboard = () => {
               Cookie: `refreshToken=${refreshToken}`,
             },
           })
-          console.log("profileResponse");
           if (response?.data?.userData) {
              setProfileData(response?.data?.userData);
           }
@@ -88,15 +93,44 @@ const Dashboard = () => {
                 },
             })
 
-
-            console.log("response");
-            console.log(response);
         }
         catch (err) {
            console.log("error");
            console.log(err);
         }
     }
+
+
+    const fetchUsersOnSearch = async (textSearch) => {
+        const refreshToken = Cookies.get('refreshToken');
+         try {
+            console.log("hellloo");
+            const response = await axios.get(`http://localhost:8080/api/userNameSearch?searchTerm=${textSearch}`, {
+                withCredentials: true, 
+                headers: {
+                  Cookie: `refreshToken=${refreshToken}`,
+                },
+            });
+            console.log("response?.data?.users");
+            console.log(response?.data?.users);
+            if (response?.data?.users) {
+                setSearchResults(response?.data?.users || []);
+            }
+
+         }
+         catch (err) {
+
+         }
+    }
+
+    useEffect(() => {
+       console.log(textSearch, "textSearch");
+       fetchUsersOnSearch(textSearch);
+    }, [textSearch]);
+
+
+    console.log("SearchResults");
+    console.log(searchResults);
 
     return (
         <div className="dashboard-container">
@@ -128,6 +162,22 @@ const Dashboard = () => {
             />
             </div>
             </div>
+            <div className="search-container">
+                Search Result 
+                <div className="search-row">
+                    {searchResults.map((item) => {
+                        return (
+                            <div key={item._id} className="search-item" onClick={() => {
+                                router.push(`/dashboard/${item._id}?username=${item.username}`)
+                            }}>
+                                 <img src={photoIArr[Math.floor(Math.random() * 4)].src} alt='' width='40px' height='40px'/>
+                                {item.username}
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
+            <Modal/>
         </div>
     )
 
@@ -192,7 +242,7 @@ const Dashboard = () => {
               })}
            </div>
         </div>
-        <Modal/>
+
         </>
     )
 }

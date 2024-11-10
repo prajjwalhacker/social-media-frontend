@@ -102,6 +102,11 @@ export default function Home() {
 
 
 
+  useEffect(() => {
+   
+  }, [])
+
+
   return (
     <div className="main-container">
         <div className="login-container">
