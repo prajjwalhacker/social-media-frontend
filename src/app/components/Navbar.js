@@ -1,9 +1,15 @@
 "use client";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useSelector } from "react-redux";
 const Navbar = ({ navigations }) => {
 
     const router = useRouter();
+
+    const state = useSelector((state) => state);
+
+    console.log("state");
+    console.log(state);
 
     const onLogout = async () => {
         try {
@@ -25,7 +31,7 @@ const Navbar = ({ navigations }) => {
           {
             navigations.map((item, index) => {
                 return (
-                    <div key={index} onClick={() => { if(item.name === 'logout') {
+                    <div  className='navbar-element' key={index} onClick={() => { if(item.name === 'logout') {
                          onLogout();
                     } 
                     router.push(item.path) 

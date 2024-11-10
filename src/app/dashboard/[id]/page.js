@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import Modal from "@/app/components/Modal";
+import photoI from '../../../../public/profile/photo.svg';
 
 
 const Dashboard = () => {
@@ -15,6 +16,7 @@ const Dashboard = () => {
     const [peoplesVisited, setPeopleVisited]= useState([]);
     const [totalVisits,setTotalVisits] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const [textSearch, setTextSearch] = useState('');
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -95,6 +97,39 @@ const Dashboard = () => {
            console.log(err);
         }
     }
+
+    return (
+        <div className="dashboard-container">
+           <div className="dashboard-row">
+            <div className="profile-container">
+            <div className="title-bar">
+                <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
+                Hello {'Prajjwal Soni !'} {' Welcome t your social media account !'}
+            </div>
+            <div className="email-bar">
+                Your Email - {'Prajjwalsoni123@gmail.com'}
+            </div>
+            </div>
+            <div className='search-bar'>
+            <input
+              type="text"
+              placeholder="Search Your friends here..."
+              value={textSearch}
+              onChange={(e) => {
+                 setTextSearch(e.target.value);
+              }}
+              style={{
+               backgroundColor: 'black',
+               color: 'white',
+               border: '1px solid #444',
+               padding: '10px',
+               borderRadius: '5px',
+             }}
+            />
+            </div>
+            </div>
+        </div>
+    )
 
     return (
         <>

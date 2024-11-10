@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfile } from '../feature/userProfileSlice';
+import { toast } from 'react-toastify'
 
 
  const Login = () => {
@@ -12,6 +13,7 @@ import { fetchProfile } from '../feature/userProfileSlice';
 
 
     const [formData, setFormData] = useState({});
+    const [errors, setErrors] = useState({});
 
 
     const dispatch = useDispatch();
@@ -21,9 +23,30 @@ import { fetchProfile } from '../feature/userProfileSlice';
 
     const router = useRouter();
 
+    const validateForm = () => {
+      const { email, password } = formData || {};
+
+      const errorObj = {};
+      if (!email) {
+          errorObj.email = 'This is required';
+      }
+      if (!password) {
+         errorObj.password = 'This is required';
+      }
+      return errorObj;
+    }
+
     const onsubmit = async () => {
 
         const { email, password } = formData || {};
+
+        const errorObj = validateForm();
+
+        setErrors(errorObj);
+
+        if (Object.keys(errorObj).length) {
+           return;
+        }
 
 
         try {
@@ -33,6 +56,7 @@ import { fetchProfile } from '../feature/userProfileSlice';
             }, { withCredentials: true });
             if (response?.data?.newUser?._id) {
                dispatch(fetchProfile());
+               toast.success("Login successfully !");
                router.push(`/dashboard/${response?.data?.newUser?._id}`);
             }
         }
@@ -40,6 +64,17 @@ import { fetchProfile } from '../feature/userProfileSlice';
             console.log(err, "error");
         }
     }
+
+    useEffect(() => {
+       const errorObj = JSON.parse(JSON.stringify(errors));
+       if (formData.email) {
+         delete errorObj.email;
+       }
+       if (formData.password) {
+         delete errorObj.password;
+       }
+       setErrors(errorObj);
+    }, [formData]);
 
 
     return (
@@ -50,19 +85,19 @@ import { fetchProfile } from '../feature/userProfileSlice';
            </div>
            <div className="form-row">
            <div>
-             Email 
-           </div>
-           <div>
-              <input className="custom-input" type="text" value={formData?.email || ''} name='email' onChange={(e) => {
+              <input className="custom-input" type="text" value={formData?.email || ''} placeholder="Email.." name='email' onChange={(e) => {
                  setFormData((val) => ({ ...val, email: e.target.value }))
               }}/>
+               {
+               !!errors?.email && <div className="error-state">{errors?.email || ''}</div>
+             }
            </div>
-           <div className="form-row">
-              Password
-           </div>
-           <input className="custom-input" type='text' value={formData?.password || ''} name='password' onChange={(e) => {
+           <input className="custom-input" type='password' value={formData?.password || ''} placeholder='Password..' name='password' onChange={(e) => {
               setFormData((val) => ({ ...val, password: e.target.value }));
            }}/>
+             {
+               !!errors?.password && <div className="error-state">{errors?.password || ''}</div>
+             }
            </div>
            <button className="custom-button" onClick={() => {
               onsubmit();
