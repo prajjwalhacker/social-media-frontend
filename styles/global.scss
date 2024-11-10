@@ -119,6 +119,16 @@
     background-color: rgba(189, 189, 189, 0.9);
 }
 
+.comment-modal-wrapper {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(189, 189, 189, 0.9);
+}
+
+
 .modal-btn {
     padding: 0.6rem 1.4rem;
     font-size: 1.4rem;
@@ -142,10 +152,31 @@
     border-radius: 2rem;
 }
 
+.comment-modal-container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 30rem;
+    background-color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 2rem;
+    .like-users {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 4px;
+    }
+    .comment-creation {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
 
 
 .dashboard-container {
-    background-color: #000;
+    background-color: #8e44ad;;
     height: 100vh;
     width: 100%;
     padding: 10px 10px;
@@ -158,11 +189,15 @@
             padding: 10px;
             gap: 20px;
             .title-bar {
-                color: #fff;
-                font-size: 14px;
                 display: flex;
+                flex-direction: row;
                 align-items: center;
-                gap: 6px;
+                gap: 10px;
+                font-family: 'Poppins', sans-serif;
+                font-weight: 700;
+                font-size: 1rem;
+                color: white;
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
             }
             .email-bar {
                 color: #fff;
@@ -203,4 +238,98 @@
     text-align: center;
     padding: 1rem;
     font-size: 1rem;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+    font-size: 20px;
+    margin-top: 24px;
+    width: auto;
+}
+
+.post-button {
+    padding: 12px 30px;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background-color: #4CAF50; /* Green color */
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    width: 200px;
+}
+
+.post-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-4px);
+}
+
+/* Focus effect */
+.post-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5);
+}
+
+/* Active effect */
+.post-button:active {
+    background-color: #388e3c;
+    transform: translateY(2px);
+}
+
+
+.styled-textarea {
+    width: 100%;
+    max-width: 500px;
+    height: 150px;
+    padding: 10px;
+    font-family: 'Arial', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    background-color: #f9f9f9;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    resize: vertical;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.post-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+    font-size: 20px;
+    margin-top: 24px;
+    width: auto;
+}
+
+.post-lists {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 400px;
+    overflow-y: scroll;
+    .svg-container {
+        display: flex;
+        gap: 8px;
+        margin-top: 4px;
+        .single-svg {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            font-size: 12px;
+            cursor: pointer;
+
+        }
+    }
 }

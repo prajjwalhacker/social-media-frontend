@@ -1,8 +1,28 @@
+import axios from "axios";
 import SparkleCelebration from "./Sparkles";
+import Cookies from "js-cookie";
 
 const MyModal = ({ setShowModel=()=>{}, profileData = {} }) => {
   console.log("profileData");
   console.log(profileData);
+
+  const userUpdate = async ()=> {
+     const refreshToken = Cookies.get('refreshToken');
+     try {
+        await axios.post('http://localhost:8080/api/userUpdate', {
+          userWelcomeModal: false
+        },  {
+          withCredentials: true, 
+          headers: {
+            Cookie: `refreshToken=${refreshToken}`,
+          },
+      })
+     }
+     catch (err) {
+        console.log("something went wrong");
+     }
+  }
+
     return (
      <>
         <SparkleCelebration/>
@@ -10,7 +30,7 @@ const MyModal = ({ setShowModel=()=>{}, profileData = {} }) => {
         <div className="modal-container">
         <h2>Welcome to your profile, {profileData?.data?.profileData?.username}! 🎉😊</h2>
         <p>We’re excited to have you! 🚀✨</p>
-       <button className="model-btn" onClick={() => { setShowModel(false); }}>Close it</button>
+       <button className="model-btn" onClick={() => { setShowModel(false); userUpdate(); }}>Close it</button>
        </div>
       </>
     )

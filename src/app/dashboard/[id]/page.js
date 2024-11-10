@@ -9,7 +9,11 @@ import photoI from '../../../../public/profile/photo.svg';
 import photo2I from '../../../../public/profile/photo2.svg';
 import photo3I from '../../../../public/profile/photo3.svg';
 import photo4I from '../../../../public/profile/photo4.svg';
-
+import { fetchProfile } from "@/app/feature/userProfileSlice";
+import messageI from '../../../../public/profile/message.svg';
+import likeI from '../../../../public/profile/like.svg';
+import CommentModal from "@/app/components/CommentModal";
+import LikeModal from "@/app/components/LikeModal";
 
 const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
@@ -24,10 +28,13 @@ const Dashboard = () => {
     const [showModal, setShowModal] = useState(false);
     const [textSearch, setTextSearch] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [showCommentModal, setShowCommentModal] = useState(false);
+    const [showLikeModal, setShowLikeModal] = useState(false);
 
     const userProfile = useSelector((state) => state.userProfile);
 
-
+ 
+    const dispatch = useDispatch();
 
    const params = useParams();
    const router = useRouter();
@@ -54,7 +61,7 @@ const Dashboard = () => {
     const fetchPostList = async () => {
         const refreshToken = Cookies.get('refreshToken'); 
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/postList?userId=${'672e03a9db75416be26e7711'}`,{
+          const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/postlist`,{
             withCredentials: true, 
             headers: {
               Cookie: `refreshToken=${refreshToken}`,
@@ -67,6 +74,9 @@ const Dashboard = () => {
         }
     }
 
+    useEffect(() => {
+       dispatch(fetchProfile())
+    }, [])
 
     useEffect(() => {
        fetchProfileData();
@@ -83,7 +93,6 @@ const Dashboard = () => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/post`, {
                 post: postMessage, 
-                userId: '672e03a9db75416be26e7711'
             }, {
                 withCredentials: true, 
                 headers: {
@@ -127,19 +136,13 @@ const Dashboard = () => {
     }, [textSearch]);
 
 
-    console.log("SearchResults");
-    console.log(searchResults);
-
     return (
         <div className="dashboard-container">
            <div className="dashboard-row">
             <div className="profile-container">
             <div className="title-bar">
                 <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
-                Hello {'Prajjwal Soni !'} {' Welcome t your social media account !'}
-            </div>
-            <div className="email-bar">
-                Your Email - {'Prajjwalsoni123@gmail.com'}
+                👋 Hello {userProfile?.data?.profileData?.username} 😊🌟
             </div>
             </div>
             <div className='search-bar'>
@@ -151,16 +154,17 @@ const Dashboard = () => {
                  setTextSearch(e.target.value);
               }}
               style={{
-               backgroundColor: 'black',
-               color: 'white',
+               backgroundColor: 'white',
+               color: 'black',
                border: '1px solid #444',
                padding: '10px',
                borderRadius: '5px',
+               marginRight: '10px'
              }}
             />
             </div>
             </div>
-            <div className="search-container">
+            {!!searchResults?.length && <div className="search-container">
                 Search Result 
                 <div className="search-row">
                     {searchResults.map((item) => {
@@ -174,14 +178,46 @@ const Dashboard = () => {
                         )
                     })}
                 </div>
-            </div>
+            </div>}
             <Modal profileData={userProfile}/>
             <div className="posts-container">
                 Create your Post here
-                <div>
-
+                <div> 
+                <textarea 
+              value={postMessage} 
+              onChange={handleChange}
+              placeholder="Type your post here...." 
+              className="styled-textarea"
+            />
                 </div>
+                <button className="post-button" onClick={() => { onPostSubmit(); }}>
+                  Create 
+                </button> 
             </div>
+            <div className="post-list-container">
+                Your Posts
+                {!!postList?.length && <div className='post-lists'>
+                   {postList.map((item) => {
+                      return (
+                        <div>
+                            {item.message || ''}
+                            <div className="svg-container">
+                            <div className="single-svg" onClick={() => { setShowCommentModal(true) }}>
+                             3
+                            <img src={messageI.src} width={'20px'} height={'20px'}/>
+                            </div> 
+                            <div className="single-svg" onClick={() => { setShowLikeModal(true) }}>
+                                5
+                              <img src={likeI.src} width={'20px'} height={'20px'}/>
+                            </div>
+                            </div>
+                        </div>
+                      )
+                   })}
+                </div>}
+            </div>
+            {showCommentModal &&  <CommentModal setShowModel={setShowCommentModal}/>}
+            {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal}/>}
         </div>
     )
 
