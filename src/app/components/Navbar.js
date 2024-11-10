@@ -13,7 +13,7 @@ const Navbar = ({ navigations }) => {
 
     const onLogout = async () => {
         try {
-          const response = await axios.post(`${process.env.BACKEND_URL}/api/logout`, {}, {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/logout`, {}, {
             withCredentials: true
           });
         }

@@ -50,7 +50,7 @@ import { toast } from 'react-toastify'
 
 
         try {
-            const response = await axios.post(`${process.env.BACKEND_URL}/api/login`, {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/login`, {
               email,
               password
             }, { withCredentials: true });
