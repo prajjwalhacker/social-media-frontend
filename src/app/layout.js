@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
     {
       name: "signup",
       title: "signup",
-      path: "/signup"
+      path: "/"
     },
     {
       name:"login",
