@@ -20,7 +20,7 @@ const CommentModal = ({ comments, postId, setShowModel=()=>{}, profileData = {},
   const onPostComment = async () => {
     const refreshToken = Cookies.get('refreshToken'); 
      try {
-      await axios.post('http://localhost:8080/api/commentAddition', {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/commentAddition`, {
         comment,
         postId
       },  {
@@ -40,7 +40,7 @@ const CommentModal = ({ comments, postId, setShowModel=()=>{}, profileData = {},
   const userUpdate = async ()=> {
      const refreshToken = Cookies.get('refreshToken'); 
      try {
-        await axios.post('http://localhost:8080/api/userUpdate', {
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/userUpdate`, {
           userWelcomeModal: false
         },  {
           withCredentials: true, 

@@ -18,7 +18,7 @@ const LikeModal = ({ setShowModel=()=>{}, profileData = {}, likesArr = [] }) => 
   const userUpdate = async ()=> {
      const refreshToken = Cookies.get('refreshToken'); 
      try {
-        await axios.post('http://localhost:8080/api/userUpdate', {
+        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/userUpdate`, {
           userWelcomeModal: false
         },  {
           withCredentials: true, 
