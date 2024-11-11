@@ -5,10 +5,11 @@ import photoI from '../../../public/profile/photo.svg';
 import photo2I from '../../../public/profile/photo2.svg';
 import photo3I from '../../../public/profile/photo3.svg';
 import photo4I from '../../../public/profile/photo4.svg';
+import Cookies from 'js-cookie'
 
 const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
-const LikeModal = ({ setShowModel=()=>{}, profileData = {} }) => {
+const LikeModal = ({ setShowModel=()=>{}, profileData = {}, likesArr = [] }) => {
   console.log("profileData");
   console.log(profileData);
 
@@ -37,7 +38,7 @@ const LikeModal = ({ setShowModel=()=>{}, profileData = {} }) => {
         <div className="comment-modal-container">  
           <div>People who likes</div>
         <div style={{ marginBottom: '10px' }}>
-          {likes.map((item) => {
+          {likesArr.map((item) => {
             return (
                 <div className='like-users'>
                      <img src={photoIArr[Math.floor(Math.random() * 4)].src} alt='' width='40px' height='40px'/>

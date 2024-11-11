@@ -1,13 +1,41 @@
 import axios from "axios";
 import SparkleCelebration from "./Sparkles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
-const CommentModal = ({ setShowModel=()=>{}, profileData = {} }) => {
+const CommentModal = ({ comments, postId, setShowModel=()=>{}, profileData = {}, fetchPostList }) => {
   console.log("profileData");
   console.log(profileData);
 
+  console.log("postId");
+  console.log(postId);
+
   const [comment, setComment] = useState('');
-  const [comments, setComments] = useState([{ message: "fsdsdf" }, { message: "gfgfdgfsd sdfsd" }]);
+  const [commentsArr, setCommentsArr] = useState([]);
+
+  useEffect(() => {
+    setCommentsArr(comments);
+  }, [comments]);
+
+  const onPostComment = async () => {
+    const refreshToken = Cookies.get('refreshToken'); 
+     try {
+      await axios.post('http://localhost:8080/api/commentAddition', {
+        comment,
+        postId
+      },  {
+        withCredentials: true, 
+        headers: {
+          Cookie: `refreshToken=${refreshToken}`,
+        },
+      })
+      fetchPostList();
+     }
+     catch (err) {
+       console.log("error");
+       console.log(err);
+     }
+  }
 
   const userUpdate = async ()=> {
      const refreshToken = Cookies.get('refreshToken'); 
@@ -30,14 +58,16 @@ const CommentModal = ({ setShowModel=()=>{}, profileData = {} }) => {
      <>
         <div className="comment-modal-wrapper"></div>
         <div className="comment-modal-container">  
-        <div className='comment-creation'>
-        <textarea value={comment} onChange={(e) => { setComment(e.target.value); }}/>
-        <button>Create Comment</button>
-        </div>
+        <div className="comment-box-container">
+    <textarea className="comment-box" value={comment} onChange={(e) => { setComment(e.target.value); }} placeholder="Write your comment..."></textarea>
+    <button className="submit-button" onClick={() => { onPostComment(); }}>Post Comment</button>
+    </div>
+
         <div>
-          {comments.map((item) => {
+        <div>Previous comments</div>
+          {commentsArr.map((item, index) => {
             return (
-                <div>
+                <div key={index}>
                     {item.message || ""}
                 </div>
             )

@@ -30,6 +30,8 @@ const Dashboard = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [showCommentModal, setShowCommentModal] = useState(false);
     const [showLikeModal, setShowLikeModal] = useState(false);
+    const [likesArr, setLikesArr] = useState([]);
+    const [postId, setPostId] = useState(null);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -99,7 +101,32 @@ const Dashboard = () => {
                   Cookie: `refreshToken=${refreshToken}`,
                 },
             })
+            if (response?.data?.postList?.length) {
+               setPostList(response?.data?.postList);
+            }
 
+        }
+        catch (err) {
+           console.log("error");
+           console.log(err);
+        }
+    }
+
+    const onLikeClick = async (userId, postId) => {
+      const refreshToken = Cookies.get('refreshToken'); 
+        try {
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/likes`, {
+                userId,
+                postId
+            }, {
+                withCredentials: true, 
+                headers: {
+                  Cookie: `refreshToken=${refreshToken}`,
+                },
+            })
+            setLikesArr(response?.data?.usersData);
+            fetchPostList();
+            
         }
         catch (err) {
            console.log("error");
@@ -135,6 +162,12 @@ const Dashboard = () => {
        fetchUsersOnSearch(textSearch);
     }, [textSearch]);
 
+    console.log("profileData");
+    console.log(profileData);
+
+    console.log("likesArr");
+    console.log(likesArr);
+
 
     return (
         <div className="dashboard-container">
@@ -142,8 +175,9 @@ const Dashboard = () => {
             <div className="profile-container">
             <div className="title-bar">
                 <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
-                👋 Hello {userProfile?.data?.profileData?.username} 😊🌟
+                👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
+            <button className="follow-button">Follow Me</button>
             </div>
             <div className='search-bar'>
             <input
@@ -180,7 +214,7 @@ const Dashboard = () => {
                 </div>
             </div>}
             <Modal profileData={userProfile}/>
-            <div className="posts-container">
+            {userProfile?.data?.profileData?._id === params.id ? <div className="posts-container">
                 Create your Post here
                 <div> 
                 <textarea 
@@ -193,21 +227,21 @@ const Dashboard = () => {
                 <button className="post-button" onClick={() => { onPostSubmit(); }}>
                   Create 
                 </button> 
-            </div>
+            </div> : null}
             <div className="post-list-container">
-                Your Posts
+                {userProfile?.data?.profileData?._id === params.id ? 'Your Posts' : `${profileData?.username}'s Posts`}
                 {!!postList?.length && <div className='post-lists'>
                    {postList.map((item) => {
                       return (
                         <div>
                             {item.message || ''}
                             <div className="svg-container">
-                            <div className="single-svg" onClick={() => { setShowCommentModal(true) }}>
-                             3
+                            <div className="single-svg" onClick={() => { setPostId(item); setShowCommentModal(true) }}>
+                             {item.comments?.length}
                             <img src={messageI.src} width={'20px'} height={'20px'}/>
                             </div> 
-                            <div className="single-svg" onClick={() => { setShowLikeModal(true) }}>
-                                5
+                            <div className="single-svg" onClick={() => { setShowLikeModal(true); onLikeClick(userProfile?.data?.profileData?._id,  item._id); }}>
+                                {item?.likes?.length || 0}
                               <img src={likeI.src} width={'20px'} height={'20px'}/>
                             </div>
                             </div>
@@ -216,8 +250,8 @@ const Dashboard = () => {
                    })}
                 </div>}
             </div>
-            {showCommentModal &&  <CommentModal setShowModel={setShowCommentModal}/>}
-            {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal}/>}
+            {showCommentModal &&  <CommentModal comments={postId.comments} postId={postId._id} setShowModel={setShowCommentModal} fetchPostList={fetchPostList}/>}
+            {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal} likesArr={likesArr}/>}
         </div>
     )
 
