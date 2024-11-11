@@ -174,7 +174,7 @@ const Dashboard = () => {
           Cookie: `refreshToken=${refreshToken}`,
         },
       })
-      dispatch(fetchProfile());
+      fetchProfileData();
       toast.success("followed sucessfully");
     }
 
@@ -182,17 +182,6 @@ const Dashboard = () => {
        console.log(textSearch, "textSearch");
        fetchUsersOnSearch(textSearch);
     }, [textSearch]);
-
-    console.log("profileData");
-    console.log(profileData);
-
-    console.log("likesArr");
-    console.log(likesArr);
-
-    console.log(profileData);
-    
-    console.log("userProfile");
-    console.log((profileData?.followers || []).includes(userProfile?.data?.profileData?._id));
 
     if (!userProfile?.data?.profileData?._id) {
        return  (
