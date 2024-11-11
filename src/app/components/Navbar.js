@@ -8,9 +8,6 @@ const Navbar = ({ navigations }) => {
 
     const state = useSelector((state) => state);
 
-    console.log("state");
-    console.log(state);
-
     const onLogout = async () => {
         try {
           const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/logout`, {}, {

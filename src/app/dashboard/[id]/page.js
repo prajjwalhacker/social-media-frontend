@@ -199,7 +199,7 @@ const Dashboard = () => {
                 <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
-            {(profileData?.followers || []).includes(userProfile?.data?.profileData?._id) ? <button className="follow-button" onClick={() => {  }}>Followed</button> : <button className="follow-button" onClick={() => { onUserFollow(); }}>Follow Me</button>}
+            {(profileData?.followers || []).includes(userProfile?.data?.profileData?._id) ? <button className="follow-button" onClick={() => { onUserFollow();  }}>Followed</button> : <button className="follow-button" onClick={() => { onUserFollow(); }}>Follow Me</button>}
             </div>
             <div className='search-bar'>
             <input
