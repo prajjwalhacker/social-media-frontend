@@ -397,6 +397,19 @@
     background-color: #2563eb; /* Darker blue on hover */
 }
 
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    width: 100vw;  /* Full viewport width */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Optional translucent background */
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
 .post-lists {
     display: flex;
     flex-direction: column;

@@ -14,6 +14,12 @@ import messageI from '../../../../public/profile/message.svg';
 import likeI from '../../../../public/profile/like.svg';
 import CommentModal from "@/app/components/CommentModal";
 import LikeModal from "@/app/components/LikeModal";
+import { toast } from "react-toastify";
+import { RingLoader } from 'react-spinners';
+
+function Loader() {
+  return <RingLoader color="#3b82f6" size={60} />;
+}
 
 const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
@@ -102,6 +108,7 @@ const Dashboard = () => {
                 },
             })
             if (response?.data?.postList?.length) {
+              toast.success("Wow Post created Successfully");
                setPostList(response?.data?.postList);
             }
 
@@ -157,6 +164,20 @@ const Dashboard = () => {
          }
     }
 
+    const onUserFollow = async () => {
+      const refreshToken = Cookies.get('refreshToken');
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/followUser`, {
+        userId : params.id,
+    }, {
+        withCredentials: true, 
+        headers: {
+          Cookie: `refreshToken=${refreshToken}`,
+        },
+      })
+      dispatch(fetchProfile());
+      toast.success("followed sucessfully");
+    }
+
     useEffect(() => {
        console.log(textSearch, "textSearch");
        fetchUsersOnSearch(textSearch);
@@ -168,6 +189,18 @@ const Dashboard = () => {
     console.log("likesArr");
     console.log(likesArr);
 
+    console.log(profileData);
+    
+    console.log("userProfile");
+    console.log((profileData?.followers || []).includes(userProfile?.data?.profileData?._id));
+
+    if (!userProfile?.data?.profileData?._id) {
+       return  (
+       <div className="loader-container">
+        <Loader/>
+        </div>
+      )
+    }
 
     return (
         <div className="dashboard-container">
@@ -177,7 +210,7 @@ const Dashboard = () => {
                 <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
-            <button className="follow-button">Follow Me</button>
+            {(profileData?.followers || []).includes(userProfile?.data?.profileData?._id) ? <button className="follow-button" onClick={() => {  }}>Followed</button> : <button className="follow-button" onClick={() => { onUserFollow(); }}>Follow Me</button>}
             </div>
             <div className='search-bar'>
             <input
@@ -231,9 +264,9 @@ const Dashboard = () => {
             <div className="post-list-container">
                 {userProfile?.data?.profileData?._id === params.id ? 'Your Posts' : `${profileData?.username}'s Posts`}
                 {!!postList?.length && <div className='post-lists'>
-                   {postList.map((item) => {
+                   {postList.map((item, index) => {
                       return (
-                        <div>
+                        <div key={index}>
                             {item.message || ''}
                             <div className="svg-container">
                             <div className="single-svg" onClick={() => { setPostId(item); setShowCommentModal(true) }}>
