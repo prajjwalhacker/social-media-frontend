@@ -2,11 +2,19 @@
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { useContext } from "react";
+import { AuthContext } from "../layout";
 const Navbar = ({ navigations }) => {
 
     const router = useRouter();
 
     const state = useSelector((state) => state);
+
+    const contextObj = useContext(AuthContext);
+
+
+    console.log("ContextObj");
+    console.log(contextObj);
 
     const onLogout = async () => {
         try {
@@ -27,10 +35,12 @@ const Navbar = ({ navigations }) => {
         <div className="main-navbar">
           {
             navigations.map((item, index) => {
+                if (!item.show) return;
                 return (
                     <div  className='navbar-element' key={index} onClick={() => { if(item.name === 'logout') {
                          onLogout();
                     } 
+                    item?.postAction();
                     router.push(item.path) 
                     }}>
                         {item.title}

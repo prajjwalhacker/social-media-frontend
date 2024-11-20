@@ -5,11 +5,14 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProfile } from '../feature/userProfileSlice';
 import { toast } from 'react-toastify'
-
+import { useContext } from "react";
+import { AuthContext } from "../layout";
 
  const Login = () => {
 
 
+   const { login } = useContext(AuthContext);
+   
 
 
     const [formData, setFormData] = useState({});
@@ -56,6 +59,7 @@ import { toast } from 'react-toastify'
             }, { withCredentials: true });
             if (response?.data?.newUser?._id) {
                dispatch(fetchProfile());
+               login();
                toast.success("Login successfully !");
                router.push(`/dashboard/${response?.data?.newUser?._id}`);
             }
