@@ -38,9 +38,9 @@ const LikeModal = ({ setShowModel=()=>{}, profileData = {}, likesArr = [] }) => 
         <div className="comment-modal-container">  
           <div>People who likes</div>
         <div style={{ marginBottom: '10px' }}>
-          {likesArr.map((item) => {
+          {likesArr.map((item, index) => {
             return (
-                <div className='like-users'>
+                <div key={index} className='like-users'>
                      <img src={photoIArr[Math.floor(Math.random() * 4)].src} alt='' width='40px' height='40px'/>
                     {item.username || ""}
                 </div>

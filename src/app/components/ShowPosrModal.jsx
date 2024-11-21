@@ -1,18 +1,24 @@
 import axios from "axios";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import messageI from '../../../public/profile/message.svg';
 import likeI from '../../../public/profile/like.svg';
+import CommentModal from "./CommentModal";
+import LikeModal from "./LikeModal";
+
+const ShowPostModal = ({ postObj, setShowPost, onLikeClick, userProfile, likesArr }) => {
 
 
-const ShowPostModal = ({ postObj, setShowPost }) => {
+    const [likes, setLikes] = useState([]);
+    const [comments, setComents] = useState([]);
+    const [showCommentModal, setShowCommentModal] = useState(false);
+    const [showLikeModal, setShowLikeModal] = useState(false);
 
 
-
-    console.log("postObj");
-    console.log(postObj);
-
-
+    useEffect(() => {
+         setLikes(postObj?.likes?.length);
+         setComents(postObj?.comments?.length);
+    }, [JSON.stringify(postObj)])
 
     return (
      <>
@@ -23,17 +29,22 @@ const ShowPostModal = ({ postObj, setShowPost }) => {
            <div className="post-main-container">{postObj.message}</div>
            <div className="post-action-container">
            <div className="post-action-image">
-             {postObj?.comments.length}
+             {comments}
              <img style={{ cursor: 'pointer' }} src={messageI.src} width={'20px'} height={'20px'}/>
            </div>
            <div className="post-action-image">
-             {postObj?.likes.length}
-             <img style={{ cursor: 'pointer' }} src={likeI.src} width={'20px'} height={'20px'}/>
+             {likes}
+             <img style={{ cursor: 'pointer' }} src={likeI.src} width={'20px'} height={'20px'} onClick={() => { setLikes(likes + 1); onLikeClick(userProfile?.data?.profileData?._id,  postObj._id); }}/>
            </div>
            </div>
            <button className="model-btn" onClick={() => { setShowPost(false);  }}>Close it</button>
+           <button onClick={() => { setShowLikeModal(true) }}>
+              Show Who likes
+           </button>
            </div>
        </div>
+       {showCommentModal &&  <CommentModal comments={postObj.comments} postId={postObj._id} setShowModel={setShowCommentModal} fetchPostList={fetchPostList}/>}
+       {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal} likesArr={likesArr}/>}
       </>
     )
 }

@@ -124,6 +124,9 @@ const Dashboard = () => {
 
     const onLikeClick = async (userId, postId) => {
       const refreshToken = Cookies.get('refreshToken'); 
+
+      console.log(userId);
+      console.log(postId);
         try {
           const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/likes`, {
                 userId,
@@ -286,9 +289,7 @@ const Dashboard = () => {
                    })}
                 </div>}
             </div>
-            {showCommentModal &&  <CommentModal comments={postId.comments} postId={postId._id} setShowModel={setShowCommentModal} fetchPostList={fetchPostList}/>}
-            {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal} likesArr={likesArr}/>}
-            {showPost && <ShowPostModal postObj={postObj} setShowPost={setShowPost}/>}
+            {showPost && <ShowPostModal userProfile={userProfile} postObj={postObj} likesArr={likesArr} onLikeClick={onLikeClick} setShowPost={setShowPost}/>}
         </div>
     )
 
