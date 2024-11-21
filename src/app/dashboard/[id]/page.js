@@ -17,6 +17,7 @@ import LikeModal from "@/app/components/LikeModal";
 import { toast } from "react-toastify";
 import { RingLoader } from 'react-spinners';
 import ShowPostModal from "@/app/components/ShowPosrModal";
+import FollowerList from "@/app/components/FollowerList";
 
 function Loader() {
   return <RingLoader color="#3b82f6" size={60} />;
@@ -41,6 +42,8 @@ const Dashboard = () => {
     const [postId, setPostId] = useState(null);
     const [postObj,setPostObj] = useState(null);
     const [showPost, setShowPost] = useState(false);
+    const [showFollowerModal, setShowFollowerModal] = useState(false);
+    const [followers, setFollowers] = useState([]);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -125,8 +128,6 @@ const Dashboard = () => {
     const onLikeClick = async (userId, postId) => {
       const refreshToken = Cookies.get('refreshToken'); 
 
-      console.log(userId);
-      console.log(postId);
         try {
           const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/likes`, {
                 userId,
@@ -172,6 +173,8 @@ const Dashboard = () => {
 
     const onUserFollow = async () => {
       const refreshToken = Cookies.get('refreshToken');
+      console.log("refreshTOkenHello");
+      console.log(refreshToken);
       const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/followUser`, {
         userId : params.id,
     }, {
@@ -182,6 +185,23 @@ const Dashboard = () => {
       })
       fetchProfileData();
       toast.success("followed sucessfully");
+    }
+
+    const onFollowers = async () => {
+        const refreshToken = Cookies.get('refreshToken');
+        console.log("refreshTokennn");
+        console.log(refreshToken);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/followers`, {
+           userId: params.id
+        }, {
+          withCredentials: true, 
+          headers: {
+            Cookie: `refreshToken=${refreshToken}`,
+          },
+        })
+
+        setFollowers(response?.data?.followers);
+
     }
 
     const onPostClick = async (item) => {
@@ -211,6 +231,7 @@ const Dashboard = () => {
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
             {(profileData?.followers || []).includes(userProfile?.data?.profileData?._id) ? <button className="follow-button" onClick={() => { onUserFollow();  }}>Followed</button> : <button className="follow-button" onClick={() => { onUserFollow(); }}>Follow Me</button>}
+            <button className="follow-button" onClick={() => { setShowFollowerModal(true); onFollowers();  }}>See Followers</button>
             </div>
             <div className='search-bar'>
             <input
@@ -289,7 +310,8 @@ const Dashboard = () => {
                    })}
                 </div>}
             </div>
-            {showPost && <ShowPostModal userProfile={userProfile} postObj={postObj} likesArr={likesArr} onLikeClick={onLikeClick} setShowPost={setShowPost}/>}
+            {showPost && <ShowPostModal userProfile={userProfile} postObj={postObj} likesArr={likesArr} onLikeClick={onLikeClick} setShowPost={setShowPost} fetchPostList={fetchPostList}/>}
+            {showFollowerModal && <FollowerList followers={followers} setShowFollowerModal={setShowFollowerModal} onFollowers={onFollowers}/>}
         </div>
     )
 

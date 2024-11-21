@@ -99,11 +99,30 @@
         font-weight: 500;
         font-family: 'Poppins', sans-serif; /* Use Poppins font */
         text-decoration: none;
-        color: #007BFF; /* Default blue color */
+        color: #673DE6; /* Default blue color */
         position: relative;
         transition: all 0.3s ease;
         cursor: pointer;
     }
+}
+
+.comments-list {
+   display: flex;
+   flex-direction: column;
+   .comment-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .comment-section:hover {
+    border-color: #007BFF; /* Blue border on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+    border: 1px solid #007BFF;
+    cursor: pointer; /* Change cursor to pointer to indicate interactivity */
+  }
 }
 
 .modal-wrapper {

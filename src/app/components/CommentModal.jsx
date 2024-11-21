@@ -4,11 +4,6 @@ import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 
 const CommentModal = ({ comments, postId, setShowModel=()=>{}, profileData = {}, fetchPostList }) => {
-  console.log("profileData");
-  console.log(profileData);
-
-  console.log("postId");
-  console.log(postId);
 
   const [comment, setComment] = useState('');
   const [commentsArr, setCommentsArr] = useState([]);
@@ -60,18 +55,19 @@ const CommentModal = ({ comments, postId, setShowModel=()=>{}, profileData = {},
         <div className="comment-modal-container">  
         <div className="comment-box-container">
     <textarea className="comment-box" value={comment} onChange={(e) => { setComment(e.target.value); }} placeholder="Write your comment..."></textarea>
-    <button className="submit-button" onClick={() => { onPostComment(); }}>Post Comment</button>
+    <button className="submit-button" onClick={() => { onPostComment(); setCommentsArr((ele) => { return [...ele, { message: comment }]; }) }}>Post Comment</button>
     </div>
-
-        <div>
-        <div>Previous comments</div>
-          {commentsArr.map((item, index) => {
+        <div className="comments-list">
+        {!commentsArr?.length ? <div>No Previous comments</div> : <div>Previous comments</div> }
+        <div className='comments-list-arr'>
+           {commentsArr.map((item, index) => {
             return (
-                <div key={index}>
+                <div className="comment-section" key={index}>
                     {item.message || ""}
                 </div>
             )
           })}
+        </div>
         </div> 
        <button className="model-btn" onClick={() => { setShowModel(false); userUpdate(); }}>Close it</button>
        </div>

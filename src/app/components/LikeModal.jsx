@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 import SparkleCelebration from "./Sparkles";
 import { useState } from "react";
 import photoI from '../../../public/profile/photo.svg';
@@ -10,10 +11,15 @@ import Cookies from 'js-cookie'
 const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
 const LikeModal = ({ setShowModel=()=>{}, profileData = {}, likesArr = [] }) => {
-  console.log("profileData");
-  console.log(profileData);
+
 
   const [likes, setLikes] = useState([{ username: "fsdsdf" }, { username: "gfgfdgfsd sdfsd" }]);
+
+  const [likesArray, setLikesArray] = useState([]);
+
+  useEffect(() => {
+      setLikesArray(likesArr);
+  },[JSON.stringify(likesArr)]);
 
   const userUpdate = async ()=> {
      const refreshToken = Cookies.get('refreshToken'); 
@@ -38,7 +44,7 @@ const LikeModal = ({ setShowModel=()=>{}, profileData = {}, likesArr = [] }) => 
         <div className="comment-modal-container">  
           <div>People who likes</div>
         <div style={{ marginBottom: '10px' }}>
-          {likesArr.map((item, index) => {
+          {likesArray.map((item, index) => {
             return (
                 <div key={index} className='like-users'>
                      <img src={photoIArr[Math.floor(Math.random() * 4)].src} alt='' width='40px' height='40px'/>

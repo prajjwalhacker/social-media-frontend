@@ -6,7 +6,7 @@ import likeI from '../../../public/profile/like.svg';
 import CommentModal from "./CommentModal";
 import LikeModal from "./LikeModal";
 
-const ShowPostModal = ({ postObj, setShowPost, onLikeClick, userProfile, likesArr }) => {
+const ShowPostModal = ({ postObj, setShowPost, onLikeClick, fetchPostList, userProfile, likesArr }) => {
 
 
     const [likes, setLikes] = useState([]);
@@ -30,7 +30,9 @@ const ShowPostModal = ({ postObj, setShowPost, onLikeClick, userProfile, likesAr
            <div className="post-action-container">
            <div className="post-action-image">
              {comments}
-             <img style={{ cursor: 'pointer' }} src={messageI.src} width={'20px'} height={'20px'}/>
+             <img style={{ cursor: 'pointer' }} src={messageI.src} width={'20px'} height={'20px'} onClick={() => {
+                setShowCommentModal(true);
+             }}/>
            </div>
            <div className="post-action-image">
              {likes}
