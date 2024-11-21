@@ -125,6 +125,12 @@
   }
 }
 
+.button-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 .modal-wrapper {
     position: fixed;
     left: 0;

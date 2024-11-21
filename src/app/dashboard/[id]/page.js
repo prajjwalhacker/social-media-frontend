@@ -230,8 +230,11 @@ const Dashboard = () => {
                 <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
+            <div className="button-list">
             {(profileData?.followers || []).includes(userProfile?.data?.profileData?._id) ? <button className="follow-button" onClick={() => { onUserFollow();  }}>Followed</button> : <button className="follow-button" onClick={() => { onUserFollow(); }}>Follow Me</button>}
             <button className="follow-button" onClick={() => { setShowFollowerModal(true); onFollowers();  }}>See Followers</button>
+            <button className="follow-button" onClick={() => {  router.push(`/analytics/${params.id}`) }}>See Analytics</button>
+            </div>
             </div>
             <div className='search-bar'>
             <input
