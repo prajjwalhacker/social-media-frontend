@@ -16,6 +16,7 @@ import CommentModal from "@/app/components/CommentModal";
 import LikeModal from "@/app/components/LikeModal";
 import { toast } from "react-toastify";
 import { RingLoader } from 'react-spinners';
+import ShowPostModal from "@/app/components/ShowPosrModal";
 
 function Loader() {
   return <RingLoader color="#3b82f6" size={60} />;
@@ -38,6 +39,8 @@ const Dashboard = () => {
     const [showLikeModal, setShowLikeModal] = useState(false);
     const [likesArr, setLikesArr] = useState([]);
     const [postId, setPostId] = useState(null);
+    const [postObj,setPostObj] = useState(null);
+    const [showPost, setShowPost] = useState(false);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -178,6 +181,11 @@ const Dashboard = () => {
       toast.success("followed sucessfully");
     }
 
+    const onPostClick = async (item) => {
+          setPostObj(item);
+          setShowPost(true);
+    }
+
     useEffect(() => {
        console.log(textSearch, "textSearch");
        fetchUsersOnSearch(textSearch);
@@ -256,7 +264,7 @@ const Dashboard = () => {
                    {postList.map((item, index) => {
 
                       return (
-                        <div className="post-container" key={index}>
+                        <div className="post-container" key={index} onClick={() => {  onPostClick(item); }}>
                              {item.message || ''}
                         </div>
                       )
@@ -280,73 +288,10 @@ const Dashboard = () => {
             </div>
             {showCommentModal &&  <CommentModal comments={postId.comments} postId={postId._id} setShowModel={setShowCommentModal} fetchPostList={fetchPostList}/>}
             {showLikeModal &&  <LikeModal setShowModel={setShowLikeModal} likesArr={likesArr}/>}
+            {showPost && <ShowPostModal postObj={postObj} setShowPost={setShowPost}/>}
         </div>
     )
 
-    return (
-        <>
-        <div>
-           Welcome to Profile of {profileData?.username} 
-           <div>
-              Details of Profile Data of {profileData?.username}
-              <div>
-                 EMail: {profileData?.email}
-                 <div>
-                 </div>
-              </div>
-           </div>
-           <div>
-           <div>
-              Create Post
-            </div>
-            <div>
-            <textarea 
-              value={postMessage} 
-              onChange={handleChange}
-              placeholder="Type your post here...." 
-            />
-            </div>
-            <button onClick={() => { onPostSubmit(); }}>
-                Submit for Post
-            </button>
-           </div>
-           <div>
-               Post list
-           </div>
-           <div>
-             {postList.map((item, index) => {
-                return (
-                    <div key={index}>
-                        {item.message}
-                    </div>
-                )
-             })}
-           </div>
-           <div>
-               Analytics of Profile
-           </div>
-           <div>
-              total Visits: {totalVisits}
-           </div>
-           <div>
-              People Visited in last 30 minutes
-           </div>
-           <div>
-              {peoplesVisited.map((item, index) => {
-                  <div key={index}>
-                  <div>
-                     Name:  { item.name }
-                  </div>
-                  <div>
-                  Name:  { item.name }
-               </div>
-               </div>
-              })}
-           </div>
-        </div>
-
-        </>
-    )
 }
 
 
