@@ -157,6 +157,29 @@
     background-color: #fff;
     padding: 2rem 3rem;
     border-radius: 2rem;
+    .post-content-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        .post-main-container {
+            font-size: 14px;
+            border: 1px solid black;
+            padding: 8px 8px;
+            font-family: sans-serif;
+            border-radius: 8px;
+            background-color: #fff;
+            color: black;
+        }
+        .post-action-container {
+            display: flex;
+            gap: 8px;
+        }
+        .post-action-image {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+    }
     .like-users {
         display: flex;
         align-items: center;
