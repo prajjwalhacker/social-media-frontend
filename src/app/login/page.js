@@ -22,8 +22,6 @@ import { AuthContext } from "../layout";
     const dispatch = useDispatch();
     const userState = useSelector((state) => state.userProfile);
     
-    console.log(userState, "profile");
-
     const router = useRouter();
 
     const validateForm = () => {

@@ -37,8 +37,8 @@ export default function RootLayout({ children }) {
       postAction: logout
     },
     {
-      name: "signup",
-      title: "signup",
+      name: "Signup",
+      title: "Signup",
       show: !isLoggedIn,
       path: "/",
       postAction: () => {},

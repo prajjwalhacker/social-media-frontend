@@ -254,6 +254,12 @@ const Dashboard = () => {
                 {userProfile?.data?.profileData?._id === params.id ? 'Your Posts' : `${profileData?.username}'s Posts`}
                 {!!postList?.length && <div className='post-lists'>
                    {postList.map((item, index) => {
+
+                      return (
+                        <div className="post-container" key={index}>
+                             {item.message || ''}
+                        </div>
+                      )
                       return (
                         <div key={index}>
                             {item.message || ''}
