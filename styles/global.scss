@@ -131,6 +131,22 @@
     flex-wrap: wrap;
 }
 
+.analytics-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .analytics-component {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        width: 400px;
+        padding: 16px 16px;
+        background-color: #fff;
+        color: black;
+    }
+}
+
+
 .modal-wrapper {
     position: fixed;
     left: 0;
