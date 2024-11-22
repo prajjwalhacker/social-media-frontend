@@ -1,3 +1,6 @@
+import axios from "axios";
+import Cookies from "js-cookie";
+
 export const trackVisits = async (userId, visitedUserId) => {
 
     let localStorageData = localStorage.getItem(userId);
@@ -6,9 +9,14 @@ export const trackVisits = async (userId, visitedUserId) => {
     let currentData = new Date();
     const timeInLocalStorage = new Date(localStorageData.currentDate);
 
+
+
     const ans = isDifferenceGreaterThanFiveMinutes(new Date(timeInLocalStorage), currentData);
 
-    if (!ans) {
+
+
+
+    if (!ans && Object.keys(localStorageData).length) {
        return;
     }
     else {
@@ -28,6 +36,21 @@ function isDifferenceGreaterThanFiveMinutes(date1, date2) {
     return difference > fiveMinutesInMilliseconds;
   }
 
-const sendStreamApi = (userId, visitedUserId) => {
-    
+const sendStreamApi = async (userId, visitedUserId) => {
+    try {
+    const refreshToken = Cookies.get('refreshToken');
+    await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/streams`, {
+       userId,
+       visitedUserId 
+    }, {
+        withCredentials: true, 
+        headers: {
+          Cookie: `refreshToken=${refreshToken}`,
+        },
+    })  
+   }
+   catch (err) {
+     console.log("error");
+     console.log(err);
+   }
 }

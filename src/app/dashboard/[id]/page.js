@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import { RingLoader } from 'react-spinners';
 import ShowPostModal from "@/app/components/ShowPosrModal";
 import FollowerList from "@/app/components/FollowerList";
+import { trackVisits } from "@/utils/analytics";
 
 function Loader() {
   return <RingLoader color="#3b82f6" size={60} />;
@@ -96,6 +97,15 @@ const Dashboard = () => {
        fetchProfileData();
        fetchPostList();
     }, [])
+
+    useEffect(() => {
+
+      if (!userProfile?.data?.profileData?._id) return;
+      
+      if (String(userProfile?.data?.profileData?._id) !== String(params.id)) {
+        trackVisits(userProfile?.data?.profileData?._id, params.id);
+     }
+    }, [userProfile?.data?.profileData?._id]);
 
 
     const handleChange = (e) => {
