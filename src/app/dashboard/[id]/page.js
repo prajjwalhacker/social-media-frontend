@@ -19,6 +19,7 @@ import { RingLoader } from 'react-spinners';
 import ShowPostModal from "@/app/components/ShowPosrModal";
 import FollowerList from "@/app/components/FollowerList";
 import { trackVisits } from "@/utils/analytics";
+import UploadProfilePicture from "@/app/components/UploadProfilePicture";
 
 function Loader() {
   return <RingLoader color="#3b82f6" size={60} />;
@@ -45,6 +46,7 @@ const Dashboard = () => {
     const [showPost, setShowPost] = useState(false);
     const [showFollowerModal, setShowFollowerModal] = useState(false);
     const [followers, setFollowers] = useState([]);
+    const [showProfilePicture, setShowProfilePicture] = useState(false);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -237,7 +239,9 @@ const Dashboard = () => {
            <div className="dashboard-row">
             <div className="profile-container">
             <div className="title-bar">
-                <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14 }}/>
+                <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14, cursor: 'pointer' }} onClick={() => {
+                    setShowProfilePicture(true);
+                }}/>
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
             </div>
             <div className="button-list">
@@ -325,6 +329,8 @@ const Dashboard = () => {
             </div>
             {showPost && <ShowPostModal userProfile={userProfile} postObj={postObj} likesArr={likesArr} onLikeClick={onLikeClick} setShowPost={setShowPost} fetchPostList={fetchPostList}/>}
             {showFollowerModal && <FollowerList followers={followers} setShowFollowerModal={setShowFollowerModal} onFollowers={onFollowers}/>}
+            {showProfilePicture && <UploadProfilePicture setShowProfilePicture={setShowProfilePicture}/>}
+
         </div>
     )
 
