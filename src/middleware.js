@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server'
+import Cookies from 'js-cookie';
 
  
 
 export function middleware(request) {
   
-  const refreshToken = request.cookies.get('refreshToken');
+  const refreshToken = Cookies.get('refreshToken');
+  
   if (!refreshToken) {
      return NextResponse.redirect(new URL('/', request.url))
   }
