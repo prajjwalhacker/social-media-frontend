@@ -56,10 +56,10 @@ import { AuthContext } from "../layout";
               password
             }, { withCredentials: true });
             if (response?.data?.newUser?._id) {
+               router.push(`/dashboard/${response?.data?.newUser?._id}`);
                dispatch(fetchProfile());
                login();
                toast.success("Login successfully !");
-               router.push(`/dashboard/${response?.data?.newUser?._id}`);
             }
         }
         catch (err) {
