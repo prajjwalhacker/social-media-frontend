@@ -20,6 +20,8 @@ import ShowPostModal from "@/app/components/ShowPosrModal";
 import FollowerList from "@/app/components/FollowerList";
 import { trackVisits } from "@/utils/analytics";
 import UploadProfilePicture from "@/app/components/UploadProfilePicture";
+import { useContext } from "react";
+import { AuthContext } from "@/app/layout";
 
 function Loader() {
   return <RingLoader color="#3b82f6" size={60} />;
@@ -50,6 +52,8 @@ const Dashboard = () => {
     const [profileUrl, setProfileUrl]=useState(null);
 
     const userProfile = useSelector((state) => state.userProfile);
+    const { login } = useContext(AuthContext);
+   
 
  
     const dispatch = useDispatch();
@@ -99,6 +103,7 @@ const Dashboard = () => {
     useEffect(() => {
        fetchProfileData();
        fetchPostList();
+       login();
     }, [])
 
     useEffect(() => {
