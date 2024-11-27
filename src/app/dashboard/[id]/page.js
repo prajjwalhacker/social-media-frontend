@@ -47,6 +47,7 @@ const Dashboard = () => {
     const [showFollowerModal, setShowFollowerModal] = useState(false);
     const [followers, setFollowers] = useState([]);
     const [showProfilePicture, setShowProfilePicture] = useState(false);
+    const [profileUrl, setProfileUrl]=useState(null);
 
     const userProfile = useSelector((state) => state.userProfile);
 
@@ -239,7 +240,7 @@ const Dashboard = () => {
            <div className="dashboard-row">
             <div className="profile-container">
             <div className="title-bar">
-                <img src={photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14, cursor: 'pointer' }} onClick={() => {
+                <img src={profileUrl || photoI.src} width={'50px'} height={'50px'} style={{ borderRadius: 14, cursor: 'pointer' }} onClick={() => {
                     setShowProfilePicture(true);
                 }}/>
                 👋 Hello {profileData?.username || userProfile?.data?.profileData?.username} 😊🌟
@@ -329,7 +330,7 @@ const Dashboard = () => {
             </div>
             {showPost && <ShowPostModal userProfile={userProfile} postObj={postObj} likesArr={likesArr} onLikeClick={onLikeClick} setShowPost={setShowPost} fetchPostList={fetchPostList}/>}
             {showFollowerModal && <FollowerList followers={followers} setShowFollowerModal={setShowFollowerModal} onFollowers={onFollowers}/>}
-            {showProfilePicture && <UploadProfilePicture setShowProfilePicture={setShowProfilePicture}/>}
+            {showProfilePicture && <UploadProfilePicture setProfileUrl={setProfileUrl} setShowProfilePicture={setShowProfilePicture}/>}
 
         </div>
     )

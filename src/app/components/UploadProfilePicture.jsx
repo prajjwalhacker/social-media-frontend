@@ -10,14 +10,30 @@ import Cookies from 'js-cookie'
 
 const photoIArr = [photoI, photo2I, photo3I, photo4I];
 
-const UploadProfilePicture = ({ setShowProfilePicture=()=>{} }) => {
+const UploadProfilePicture = ({ setShowProfilePicture=()=>{}, setProfileUrl = ()=>{} }) => {
 
 
     const inputRef = useRef(null);
 
-    const onUpload = (e) => {
-       console.log("e.target.files");
-       console.log(e.target.files);
+    const onUpload = async (e) => {
+       const refreshToken = Cookies.get('refreshToken');
+       const file = e.target.files[0];
+
+       const formData = new FormData();
+       formData.append('image', file);
+
+       console.log("formData");
+       console.log(formData);
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/uploadPicture`, formData, {
+        withCredentials: true, 
+        headers: {
+          Cookie: `refreshToken=${refreshToken}`,
+        },
+        })
+
+        setProfileUrl(response?.data?.url);
+
     }
  
     return (
