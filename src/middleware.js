@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 export function middleware(request) {
   
   const refreshToken = request.cookies.get('refreshToken');
-  console.log('middleware refreshToken');
+  console.log(`middleware ${Cookies.get('refreshToken')}`);
   console.log(refreshToken);
   if (!refreshToken) {
      return NextResponse.redirect(new URL('/', request.url))
